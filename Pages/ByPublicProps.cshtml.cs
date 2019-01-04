@@ -18,24 +18,27 @@ namespace ScrapBook.Pages
         [BindProperty]
         public string message { get; set; }
 
+        private ScrapBookDBContext DbContext;
+
+        public ByPublicPropsModel(ScrapBookDBContext dbContext)
+        {
+            DbContext = dbContext;
+        }
+
         public IActionResult OnPost() 
         {
             if (ModelState.IsValid) 
             {
-                using (var dbContext = new ScrapBookDBContext())
-                {
-                    var scrap = new Scrap() {
-                        Name = name,
-                        Email = email,
-                        Message = message
-                    };
+                var scrap = new Scrap() {
+                    Name = name,
+                    Email = email,
+                    Message = message
+                };
 
-                    dbContext.Scraps.Add(scrap);
+                DbContext.Scraps.Add(scrap);
+                DbContext.SaveChanges();
 
-                    dbContext.SaveChanges();
-
-                    return RedirectToPage("Index");
-                }
+                return RedirectToPage("Index");
             }
             else {
                 return Page();

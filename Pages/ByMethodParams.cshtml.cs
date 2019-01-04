@@ -9,25 +9,28 @@ namespace ScrapBook.Pages
 {
     public class ByMethodParamsModel : PageModel
     {
+        private ScrapBookDBContext DbContext;
+
+        public ByMethodParamsModel(ScrapBookDBContext dbContext)
+        {
+            DbContext = dbContext;
+        }
+
         public IActionResult OnPost(string name, string email, string message) 
         {
             if (ModelState.IsValid)
             {
-                using (var dbContext = new ScrapBookDBContext())
+                var scrap = new Scrap() 
                 {
-                    var scrap = new Scrap() 
-                    {
-                        Name = name,
-                        Email = email,
-                        Message = message
-                    };
+                    Name = name,
+                    Email = email,
+                    Message = message
+                };
 
-                    dbContext.Scraps.Add(scrap);
+                DbContext.Scraps.Add(scrap);
+                DbContext.SaveChanges();
 
-                    dbContext.SaveChanges();
-
-                    return RedirectToPage("Index");
-                }
+                return RedirectToPage("Index");
             }
             else
             {

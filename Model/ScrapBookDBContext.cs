@@ -6,9 +6,8 @@ namespace ScrapBook
     {
         public DbSet<Scrap> Scraps { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ScrapBookDBContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ScrapBook;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
     }
 }

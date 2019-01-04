@@ -9,24 +9,27 @@ namespace ScrapBook.Pages
 {
     public class ByRequestFormModel : PageModel
     {
+        private ScrapBookDBContext DbContext;
+
+        public ByRequestFormModel(ScrapBookDBContext dbContext)
+        {
+            DbContext = dbContext;
+        }
+
         public async Task<IActionResult> OnPost() {
             if (ModelState.IsValid)
             {
-                using (var dbContext = new ScrapBookDBContext())
-                {
-                    var scrap = new Scrap() { 
-                        Name = Request.Form["name"],
-                        Email = Request.Form["email"],
-                        Message = Request.Form["message"] 
-                    };
-    
-                    dbContext.Add(scrap);
-    
-                    await dbContext.SaveChangesAsync();
-    
-                    return RedirectToPage("Index");
-                }
-            }
+                var scrap = new Scrap() { 
+                    Name = Request.Form["name"],
+                    Email = Request.Form["email"],
+                    Message = Request.Form["message"] 
+                };
+
+                DbContext.Add(scrap);
+                await DbContext.SaveChangesAsync();
+
+                return RedirectToPage("Index");
+        }
             else
             {
                 return Page();
