@@ -1,3 +1,5 @@
+![](https://cesareng.visualstudio.com/ScrapyBook/_apis/build/status/ScrapyBook-CI?branchName=master)
+
 ## References
 
 - https://www.learnentityframeworkcore.com/walkthroughs/aspnetcore-application
